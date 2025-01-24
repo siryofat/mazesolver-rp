@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Iterator
+from functools import cached_property
 
 from maze_solver.models.square import Square
 
@@ -12,3 +13,11 @@ class Maze:
 
     def __getitem__(self, index: int) -> Square:
         return self.squares[index]
+
+    @cached_property
+    def width(self):
+        return max(square.column for square in self) + 1
+
+    @cached_property
+    def height(self):
+        return max(square.row for square in self) + 1
