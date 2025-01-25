@@ -55,8 +55,8 @@ def validate_rows_columns(maze: Maze) -> None:
 
 
 def validate_entrance(maze: Maze) -> None:
-    assert 1 == sum(1 for square in maze if square.role == Role.ENTRANCE), "Must be exactly 1 entrance"
+    assert 1 == sum(1 for square in maze if square.role is Role.ENTRANCE), "Must be exactly 1 entrance"
 
 
 def validate_exit(maze: Maze) -> None:
-    assert 1 == sum(1 for square in maze if square.role == Role.EXIT), "Must be exactly 1 exit"
+    assert 1 == sum(1 for square in maze if square.role is Role.EXIT), "Must be exactly 1 exit"
