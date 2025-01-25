@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Iterator
 from functools import cached_property
 
+from maze_solver.models.role import Role
 from maze_solver.models.square import Square
 
 @dataclass(frozen=True)
@@ -11,6 +12,8 @@ class Maze:
     def __post_init__(self) -> None:
         validate_indices(self)
         validate_rows_columns(self)
+        validate_entrance(self)
+        validate_exit(self)
 
     def __iter__(self) -> Iterator[Square]:
         return iter(self.squares)
@@ -41,3 +44,11 @@ def validate_rows_columns(maze: Maze) -> None:
             square = maze[y * maze.width + x]
             assert square.row == y, "Wrong square.row"
             assert square.column == x, "Wrong square.column"
+
+
+def validate_entrance(maze: Maze) -> None:
+    assert 1 == sum(1 for square in maze if square.role == Role.ENTRANCE), "Must be exactly 1 entrance"
+
+
+def validate_exit(maze: Maze) -> None:
+    assert 1 == sum(1 for square in maze if square.role == Role.EXIT), "Must be exactly 1 exit"
