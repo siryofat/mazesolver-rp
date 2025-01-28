@@ -42,6 +42,11 @@ class Polygon(tuple[Point, ...]):
         points = ' '.join(point.draw() for point in self)
         return tag('polygon', points=points, **attributes)
 
+
+class DisjointLine(tuple[Line, ...]):
+    def draw(self, **attributes) -> str:
+        return ''.join(line.draw(**attributes) for line in self)
+
 def tag(name: str, value: str | None = None, **attributes) -> str:
     attrs = "" if not attributes else " " + " ".join(
         f'{key.replace("_", "-")}="{value}"' for key, value in attributes.items()
