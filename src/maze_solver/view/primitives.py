@@ -1,4 +1,5 @@
 from typing import NamedTuple, Protocol
+from dataclasses import dataclass
 
 class Primitive(Protocol):
     def draw(self, **attributes) -> str:
@@ -46,6 +47,33 @@ class Polygon(tuple[Point, ...]):
 class DisjointLine(tuple[Line, ...]):
     def draw(self, **attributes) -> str:
         return ''.join(line.draw(**attributes) for line in self)
+
+
+@dataclass(frozen=True)
+class Rect:
+    top_left: Point | None = None
+
+    def draw(self, **attributes) -> str:
+        if self.top_left:
+            attrs = attributes | {'x': self.top_left.x, 'y': self.top_left.y}
+        else:
+            attrs = attributes
+        return tag('rect', **attrs)
+
+
+@dataclass(frozen=True)
+class Text:
+    content: str
+    point: Point
+
+    def draw(self, **attributes) -> str:
+        return tag(
+            'text',
+            self.content,
+            x = self.point.x,
+            y = self.point.y,
+            **attributes
+        )
 
 def tag(name: str, value: str | None = None, **attributes) -> str:
     attrs = "" if not attributes else " " + " ".join(
