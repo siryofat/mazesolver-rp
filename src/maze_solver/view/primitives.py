@@ -30,6 +30,18 @@ class Line(NamedTuple):
             **attributes,
         )
 
+
+class Polyline(tuple[Point, ...]):
+    def draw(self, **attributes) -> str:
+        points = ' '.join(point.draw() for point in self)
+        return tag('polyline', points=points, **attributes)
+
+
+class Polygon(tuple[Point, ...]):
+    def draw(self, **attributes) -> str:
+        points = ' '.join(point.draw() for point in self)
+        return tag('polygon', points=points, **attributes)
+
 def tag(name: str, value: str | None = None, **attributes) -> str:
     attrs = "" if not attributes else " " + " ".join(
         f'{key.replace("_", "-")}="{value}"' for key, value in attributes.items()
