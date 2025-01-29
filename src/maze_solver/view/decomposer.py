@@ -109,3 +109,15 @@ def decompose(border: Border, top_left: Point, square_size: int) -> Primitive:
 
     if border is Border.TOP | Border.BOTTOM:
         return DisjointLines([top, bottom])
+
+    if border is Border.TOP:
+        return top
+
+    if border is Border.RIGHT:
+        return right
+
+    if border is Border.BOTTOM:
+        return bottom
+
+    if border is Border.LEFT:
+        return left
