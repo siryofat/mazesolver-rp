@@ -44,7 +44,7 @@ class Polygon(tuple[Point, ...]):
         return tag('polygon', points=points, **attributes)
 
 
-class DisjointLine(tuple[Line, ...]):
+class DisjointLines(tuple[Line, ...]):
     def draw(self, **attributes) -> str:
         return ''.join(line.draw(**attributes) for line in self)
 
