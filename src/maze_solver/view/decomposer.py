@@ -2,6 +2,7 @@ from maze_solver.models.border import Border
 from maze_solver.view.primitives import(
     Point,
     Line,
+    Polygon,
     Primitive,
 )
 
@@ -14,3 +15,13 @@ def decompose(border: Border, top_left: Point, square_size: int) -> Primitive:
     bottom = Line(bottom_left, bottom_right)
     left = Line(top_left, bottom_left)
     right = Line(top_right, bottom_right)
+
+    if border is Border.LEFT | Border.TOP | Border.RIGHT | Border.BOTTOM:
+        return Polygon(
+            [
+                top_left,
+                top_right,
+                bottom_right,
+                bottom_left,
+            ]
+    )
