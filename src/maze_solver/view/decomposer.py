@@ -6,6 +6,7 @@ from maze_solver.view.primitives import(
     Polygon,
     Polyline,
     Primitive,
+    NullPrimitive,
 )
 
 def decompose(border: Border, top_left: Point, square_size: int) -> Primitive:
@@ -121,3 +122,5 @@ def decompose(border: Border, top_left: Point, square_size: int) -> Primitive:
 
     if border is Border.LEFT:
         return left
+
+    return NullPrimitive()
