@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from maze_solver.models.maze import Maze
 from maze_solver.models.solution import Solution
-from maze_solver.view.primitives import tag
+from maze_solver.view.primitives import tag, Rect
 
 @dataclass(frozen=True)
 class SVG:
@@ -33,3 +33,38 @@ class SVGRenderer:
                 viewBox=f'0 0 {width} {height}',
             )
         )
+
+    def _get_body(self, maze: Maze, solution: Solution | None = None) -> str:
+        return "".join([
+            arrow_marker(),
+            background(),
+            *map(self._draw_square, maze),
+            self._draw_solution(solution) if solution else "",
+        ])
+
+
+def arrow_marker() -> str:
+    return tag(
+        "defs",
+        tag(
+            "marker",
+            tag(
+                "path",
+                d="M 0,0 L 10,5 L 0,10 2,5 z",
+                fill="red",
+                fill_opacity="50%",
+            ),
+            id = "arrow",
+            viewBox = "0 0 20 20",
+            refX = "2",
+            refY = "5",
+            markerUnits = "strokeWidth",
+            markerWidth = "10",
+            markerHeight = "10",
+            orient = "auto",
+        )
+    )
+
+
+def background() -> str:
+    return Rect().draw(width = "100%", heigth = "100%", fill = "white")
