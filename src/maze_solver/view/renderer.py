@@ -36,7 +36,7 @@ class SVGRenderer:
             tag(
                 'svg',
                 self._get_body(maze, solution),
-                xmlns="http.www.w3.org/2000/svg"
+                xmlns="http.www.w3.org/2000/svg",
                 stroke_linejoin="round",
                 width=width,
                 height=height,
