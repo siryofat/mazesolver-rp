@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from maze_solver.models.maze import Maze
 from maze_solver.models.solution import Solution
 from maze_solver.models.square import Square
-from maze_solver.view.primitives import tag, Rect, Point, Text
+from maze_solver.view.primitives import tag, Rect, Point, Text, Polyline
 from maze_solver.view.decomposer import decompose
 from maze_solver.models.role import Role
 
@@ -78,6 +78,19 @@ class SVGRenderer:
             stroke_width = self.line_width,
             stroke = "black",
             fill = "none",
+        )
+
+    def _draw_solution(self, solution: Solution) -> str:
+        return Polyline(
+            [
+                self._transform(point, self.square_size // 2) for point in solution
+            ]
+        ).draw(
+            stroke_width = self.line_width * 2,
+            stroke_opacity = 50%,
+            stroke = "red",
+            fill = "none",
+            marker_end = "url(#arrow)",
         )
 
 
