@@ -26,7 +26,7 @@ class SVGRenderer:
 
     @property
     def offset(self):
-        self.line_width // 2
+        return self.line_width // 2
 
     def render(self, maze: Maze, solution: Solution | None = None) -> SVG:
         margins = 2 * (self.offset + self.line_width)
