@@ -1,4 +1,7 @@
 from dataclasses import dataclass
+import textwrap
+import tempfile
+import webbrowser
 
 from maze_solver.models.maze import Maze
 from maze_solver.models.solution import Solution
@@ -17,6 +20,30 @@ ROLE_EMOJI = {
 @dataclass(frozen=True)
 class SVG:
     xml_content: str
+
+    @property
+    def html_content(self) -> str:
+        return textwrap.dedent("""\
+            <!doctype html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>SVG Preview</title>
+            </head>
+            <body>
+                {0}
+            </body>
+            </html>""").format(
+                self.xml_content
+            )
+
+    def preview(self) -> None:
+        with tempfile.NamedTemporaryFile(
+            mode='w', encoding='utf-8', suffix='.html', delete=False
+        ) as file:
+            file.write(self.html_content)
+        webbrowser.open(f'file://{file.name}')
 
 
 @dataclass(frozen=True)

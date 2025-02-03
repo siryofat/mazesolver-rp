@@ -26,6 +26,7 @@ maze = Maze(
 
 solution = Solution(squares=tuple(maze[i] for i in (8, 11, 7, 6, 2)))
 svg = SVGRenderer().render(maze)
+svg.preview()
 
 with Path("maze.svg").open(mode="w", encoding="utf-8") as file:
     file.write(svg.xml_content)
