@@ -9,6 +9,7 @@ from maze_solver.models.square import Square
 from maze_solver.view.primitives import tag, Rect, Point, Text, Polyline
 from maze_solver.view.decomposer import decompose
 from maze_solver.models.role import Role
+from maze_solver.view.file_opener import FileOpener
 
 ROLE_EMOJI = {
     Role.ENTRANCE: "\N{pedestrian}",
@@ -39,11 +40,8 @@ class SVG:
             )
 
     def preview(self) -> None:
-        with tempfile.NamedTemporaryFile(
-            mode='w', encoding='utf-8', suffix='.html', delete=False
-        ) as file:
-            file.write(self.html_content)
-        webbrowser.open(f'file://{file.name}')
+        file_opener = FileOpener()
+        file_opener.open_in_browser(self.html_content)
 
 
 @dataclass(frozen=True)
