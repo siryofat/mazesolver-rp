@@ -32,7 +32,7 @@ class SVG:
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>SVG Preview</title>
             </head>
-            <body>
+            <body style="height:100vh; display:flex; justify-content:center; align-items:center;">
                 {0}
             </body>
             </html>""").format(
