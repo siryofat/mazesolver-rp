@@ -1,7 +1,7 @@
 import array
 import pathlib
+from typing import Iterator
 
-from maze_solver.models.maze import Maze
 from maze_solver.models.square import Square
 from maze_solver.models.border import Border
 from maze_solver.models.role import Role
@@ -9,13 +9,13 @@ from maze_solver.persistence.file_format import FileBody, FileHeader
 
 FORMAT_VERSION: int = 1
 
-def dump(maze: Maze, path: pathlib.Path) -> None:
-    header, body = serialize(maze)
+def dump_squares(width: int, height: int, squares: tuple[Square], path: pathlib.Path) -> None:
+    header, body = serialize(width, height, squares)
     with path.open(mode='wb') as file:
         header.write(file)
         body.write(file)
 
-def load(path: pathlib.Path) -> Maze:
+def load_sqares(path: pathlib.Path) -> Iterator[Square]:
     with path.open(mode='rb') as file:
         header = FileHeader.read(file)
         if header.format_version != FORMAT_VERSION:
@@ -23,18 +23,16 @@ def load(path: pathlib.Path) -> Maze:
         body = FileBody.read(header, file)
         return deserialize(header,body)
 
-def serialize(maze: Maze) -> tuple[FileHeader, FileBody]:
-    header = FileHeader(FORMAT_VERSION, maze.width, maze.height)
-    body = FileBody(array.array('B', map(compress, maze)))
+def serialize(width: int, height: int, squares: tuple[Square]) -> tuple[FileHeader, FileBody]:
+    header = FileHeader(FORMAT_VERSION, width, height)
+    body = FileBody(array.array('B', map(compress, squares)))
     return header, body
 
-def deserialize(header: FileHeader, body: FileBody) -> Maze:
-    squares: list[Square] = []
+def deserialize(header: FileHeader, body: FileBody) -> Iterator[Square]:
     for index, square_value in enumerate(body.square_values):
         row, column = divmod(index, header.width)
         border, role = decompress(square_value)
-        squares.append(Square(index, row, column, border, role))
-    return Maze(tuple(squares))
+        yield Square(index, row, column, border, role)
 
 def compress(square: Square) -> int:
     return (square.role << 4) | square.border.value
