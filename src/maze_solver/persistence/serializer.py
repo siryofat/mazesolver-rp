@@ -15,7 +15,7 @@ def dump_squares(width: int, height: int, squares: tuple[Square], path: pathlib.
         header.write(file)
         body.write(file)
 
-def load_sqares(path: pathlib.Path) -> Iterator[Square]:
+def load_squares(path: pathlib.Path) -> Iterator[Square]:
     with path.open(mode='rb') as file:
         header = FileHeader.read(file)
         if header.format_version != FORMAT_VERSION:
