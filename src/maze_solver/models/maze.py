@@ -1,13 +1,22 @@
 from dataclasses import dataclass
 from typing import Iterator
 from functools import cached_property
+from pathlib import Path
 
 from maze_solver.models.role import Role
 from maze_solver.models.square import Square
+from maze_solver.persistence.serializer import(
+    dump_squares,
+    load_squares,
+)
 
 @dataclass(frozen=True)
 class Maze:
     squares: tuple[Square, ...] #It's a tuple and not a list to allow cacheing.
+
+    @classmethod
+    def load(cls, path:Path) -> 'Maze':
+        return Maze(tuple(load_squares(path)))
 
     def __post_init__(self) -> None:
         validate_indices(self)
@@ -20,6 +29,14 @@ class Maze:
 
     def __getitem__(self, index: int) -> Square:
         return self.squares[index]
+
+    def dump(self, path: Path) -> None:
+        dump_squares(
+            self.width,
+            self.height,
+            self.squares,
+            path,
+        )
 
     @cached_property
     def width(self):
