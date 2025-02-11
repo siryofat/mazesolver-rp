@@ -67,7 +67,7 @@ class SVGRenderer:
                 height=height,
                 viewBox=f'0 0 {width} {height}',
                 preserveAspectRatio="xMidYMid meet",
-                style="width:100%; height:100%; box-sizing:border-box; padding:10px;",
+                style="max-width:100%; max-height:100%; box-sizing:border-box; padding:10px;",
             )
         )
 
