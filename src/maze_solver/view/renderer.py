@@ -32,7 +32,7 @@ class SVG:
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>SVG Preview</title>
             </head>
-            <body style="height:100vh; display:flex; justify-content:center; align-items:center;">
+            <body style="height:100vh; width:100vw; display:flex; justify-content:center; align-items:center; margin:0px;">
                 {0}
             </body>
             </html>""").format(
@@ -66,6 +66,8 @@ class SVGRenderer:
                 width=width,
                 height=height,
                 viewBox=f'0 0 {width} {height}',
+                preserveAspectRatio="xMidYMid meet",
+                style="width:100%; height:100%; box-sizing:border-box; padding:10px;",
             )
         )
 
